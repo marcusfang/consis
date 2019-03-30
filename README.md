@@ -38,15 +38,30 @@ message:该项目是提供消息服务的系统，好包括定时任务
 
 注意启动顺序，如下：
 
-* 启动zookeeper
-* 启动activemq
-* 启动tomcat，访问dubbo-admin管理控制台
-* 启动MessageApplication
-* 启动ProductApplication
-* 启动OrderApplication
+1 启动zookeeper
 
-启动成功后，就可以通过postman工具进行测试
-http://localhost:8082/createOrder
+2 启动activemq
+
+3 启动tomcat，访问dubbo-admin管理控制台
+
+4 启动MessageApplication
+    定时重发消息
+    定时将死亡的消息通知给工作人员，进行人工补偿操作
+    
+5 启动ProductApplication
+    从mq消息中间件中监听并消费消息，将json消息转为订单对象
+    根据消息编号查询该消息是否已被消费，保证幂等性
+    如果消息未被消费（即存在此消息），则产品表扣减库存；如果已经消费（不存在此消息），则不做处理
+    产品表扣减库存成功，则删除此消息，如果待处理消息日志表中有此消息，则更改状态为1，表示已处理；扣减失败，则不做处理
+
+6 启动OrderApplication
+    插入订单表之前，首先创建预发送消息，保存到事务消息表中，此时消息状态为：未发送
+    插入订单，如果插入订单失败则将事务消息表中预发送消息删除
+    插入订单成功后，修改消息表预发送消息状态为发送中，并发送消息至mq
+    如果发送消息失败，则订单回滚并删除事务消息表消息
+
+7. 启动成功后，就可以通过postman工具进行测试，如访问：http://localhost:8082/createOrder
+
 {
 	"buyerId": 10029122,
 	"list": [{
