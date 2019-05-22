@@ -110,6 +110,8 @@ insert into `product` (`id`, `create_time`, `product_name`, `product_price`, `pr
 ![postman调用示例图](https://github.com/marcusfang/consis/blob/master/postman-sample.jpg)
 
 8. 分别观察这三个工程在控制台的日志在调用前后的变化：
+
+
 如message工程的日志：
 Hibernate: update transaction_message set create_time=?, dead_message=?, message_body=?, message_id=?, modify_time=?, queue_name=?, remark=?, send_times=?, status=? where id=?
 2019-05-22 13:00:25.723  INFO 11492 --- [20880-thread-24] c.d.m.s.a.ActiveMqQueueServiceImpl       : >>> 发送消息到mq 队列:ORDER_QUEUE,消息内容:{"buyerId":10029122,"createTime":1558501225678,"list":[{"id":101,"num":2},{"id":102,"num":2}],"messageId":"30c6a800-5f8a-411d-b85b-f919e4980aff","orderCode":"9e8634bf-7670-429b-932d-eb2084930910","orderPrice":18026.00}
