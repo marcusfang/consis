@@ -38,7 +38,10 @@ message:该项目是提供消息服务的系统，好包括定时任务
 为message工程创建transaction数据库(空库即可)
 为product工程和order工程创建demo数据库(空库即可)
 并在demo数据库中初始化2条product测试数据：
+
 insert into `product` (`id`, `create_time`, `product_name`, `product_price`, `product_sku`, `product_spec`, `remark`) values('101','2018-01-10 12:32:05','苹果手机保护套','8888.00','516','保护套','');
+
+
 insert into `product` (`id`, `create_time`, `product_name`, `product_price`, `product_sku`, `product_spec`, `remark`) values('102','2018-01-10 12:32:05','苹果手机XR MAX','125.00','115','苹果手机','苹果手机XR MAX');
 
 
